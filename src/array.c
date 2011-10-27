@@ -2,12 +2,6 @@
 #include <stdio.h>
 #include "array.h"
 
-struct _Array {
-  unsigned int width;
-  unsigned int height;
-  double arr[];
-};
-
 Array* new_array(unsigned int width, unsigned int height)
 {
   Array* arr_ptr = malloc(sizeof (Array) + width * height * (sizeof (double)));
