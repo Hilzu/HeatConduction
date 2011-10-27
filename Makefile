@@ -1,36 +1,57 @@
-IRS = src
+DIRS := src
+PROGRAM_DIRS := $(DIRS)
 
-CCFLAGS = -pedantic -Wall -Werror -Wextra -std=c99
-CC      = gcc
+INCLUDE_DIRS := -I src
+WARNINGS := -pedantic -Wall -Werror -Wextra
+CC      := gcc
+CCFLAGS := $(WARNINGS) -std=c99 -O3 $(INCLUDE_DIRS)
 
 PROGRAM = bin/HeatConduction
 
-all: $(PROGRAM)
+SRC := src
+OBJ := obj
+BIN := bin
 
-debug: CCFLAGS += -g
+all: dirs $(PROGRAM)
+
+debug: CCFLAGS += -O0 -g
+debug: LDLIBS += -g
 debug: all
 
 prof: CCFLAGS += -pg
+prof: LDLIBS += -pg
 prof: all
 
-obj1 = $(patsubst %.c,%.o, $(foreach dir,$(DIRS) + src,   $(wildcard $(dir)/*.c)))
+SRC_PROGRAM := $(foreach dir, $(PROGRAM_DIRS), $(wildcard $(dir)/*.c))
 
-dep = $(obj1:.o=.d)
-dep += $(obj2:.o=.d)
-dep := $(sort $(dep))
+OBJ_PROGRAM := $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRC_PROGRAM))
 
-.PHONY: all clean
+DEPFILES := $(OBJ_PROGRAM:.o=.d)
+DEPFILES := $(sort $(DEPFILES))
 
-$(PROGRAM): $(obj1)
-	$(CC) $^ $(LDLIBS) -o $@
+.PHONY: all clean dirs echo
 
-$(dep): %.d: %.c
-	$(CC) -MT "$(@:.d=.o) $@" -MM $(CCFLAGS) $< > $@
+all: dirs $(PROGRAM)
+
+$(PROGRAM): $(OBJ_PROGRAM)
+
+$(BIN)/%:
+	@echo LINK $@
+	@$(CC) $^ -o $@
+
+$(OBJ)/%.o: $(SRC)/%.c
+	@echo CC $@
+	@$(CC) $(CCFLAGS) -c $< -o $@
+	@$(CC) $(CCFLAGS) -MM -MT "$(@:.d=.o) $@" $< > $(@:.o=.d)
 
 clean:
-	$(RM) $(PROGRAM) $(obj1) $(obj2) $(dep)
+	@$(RM) -rf $(PROGRAM) $(OBJ)
+
+dirs:
+	@mkdir -p $(OBJ)
+	@mkdir -p $(patsubst $(SRC)/%, $(OBJ)/%, $(shell find $(PROGRAM_DIRS) -type d))
 
 ifneq ($(MAKECMDGOALS),clean)
-  include $(dep)
+  -include $(DEPFILES)
 endif
 

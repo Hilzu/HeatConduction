@@ -1,4 +1,27 @@
 #include <stdio.h>
+#include "array.h"
+
+void initialize_array(Array* arr, double top, double right, double bottom, double left)
+{
+  for (unsigned int i=0; i < arr->width; ++i)
+  {
+    *get_val(arr, 0, i) = top;
+    *get_val(arr, arr->height-1, i) = bottom;
+  }
+  for (unsigned int i=0; i< arr->height; ++i)
+  {
+    *get_val(arr, i, 0) = left;
+    *get_val(arr, i, arr->width-1) = right;
+  }
+  double set = (top+right+bottom+left)/4;
+  for (unsigned int i=0; i< arr->heigth; ++i)
+  {
+    for (unsigned int k=0; k< arr->width; ++k)
+    {
+      *get_val(arr, i, k) = set;
+    }
+  }
+}
 
 void print_help()
 {
