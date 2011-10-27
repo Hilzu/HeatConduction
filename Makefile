@@ -1,16 +1,16 @@
-DIRS = src
+IRS = src
 
-CXXFLAGS = -pedantic -Wall -Werror -Wextra -std=c99
-CXX      = gcc
+CCFLAGS = -pedantic -Wall -Werror -Wextra -std=c99
+CC      = gcc
 
 CLIENT = bin/HeatConduction
 
 all: $(CLIENT)
 
-debug: CXXFLAGS += -g
+debug: CCFLAGS += -g
 debug: all
 
-prof: CXXFLAGS += -pg
+prof: CCFLAGS += -pg
 prof: all
 
 obj1 = $(patsubst %.c,%.o, $(foreach dir,$(DIRS) + src,   $(wildcard $(dir)/*.c)))
@@ -22,10 +22,10 @@ dep := $(sort $(dep))
 .PHONY: all clean
 
 $(CLIENT): $(obj1)
-	$(CXX) $^ $(LDLIBS) -o $@
+	$(CC) $^ $(LDLIBS) -o $@
 
 $(dep): %.d: %.c
-	$(CXX) -MT "$(@:.d=.o) $@" -MM $(CXXFLAGS) $< > $@
+	$(CC) -MT "$(@:.d=.o) $@" -MM $(CCFLAGS) $< > $@
 
 clean:
 	$(RM) $(CLIENT) $(obj1) $(obj2) $(dep)
