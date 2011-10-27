@@ -3,7 +3,6 @@
 #include "array.h"
 #include "utils.h"
 #include "math.h"
-#include "main.h"
 
 int main(int argc, char** argv)
 {
