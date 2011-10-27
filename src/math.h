@@ -4,6 +4,6 @@
 void calculate_point();
 void calculate_iteration();
 double calculate_result();
-double calculate(Array*, unsigned int);
+double calculate_heatconduct(Array*, unsigned int);
 
 #endif
