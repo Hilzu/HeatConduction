@@ -3,3 +3,4 @@ build/
 nbproject/
 src/*.o
 src/*.d
+bin/*
