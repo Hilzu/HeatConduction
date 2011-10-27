@@ -35,6 +35,9 @@ double calculate_result(Array* arr)
   return retu/((arr->width-1)*(arr->height-1));
 }
 
+/*
+ * This is the only fuction you should be using
+ */
 double calculate_heatconduct(Array* arr, unsigned int iterations)
 {
   if (iterations == 0 || arr->width < 3 || arr->height < 3)

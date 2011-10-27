@@ -6,7 +6,9 @@
 
 int main(int argc, char** argv)
 {
-  argv++;
+  if (is_default(argc, argv)) {
+    //replace
+  }
   if (argc == 1)
   {
     print_help();
