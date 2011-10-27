@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "array.h"
+#include "utils.h"
 
 void initialize_array(Array* arr, double top, double right, double bottom, double left)
 {

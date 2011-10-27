@@ -52,9 +52,9 @@ void arr_test()
 {
   Array* arr = new_array(10, 10);
   printf("w: %d h: %d\n", arr->width, arr->height);
-  
+
   print_arr(arr);
-  
+
   double* dblptr = get_val(arr, 0, 0);
   printf("uninitialized 0,0: %f\n", *dblptr);
   *dblptr = 3;
@@ -66,11 +66,11 @@ void arr_test()
   *dblptr = 11;
   printf("val of dblptr 9,9: %f\n", *dblptr);
   printf("val of get_val 9,9: %f\n", *get_val(arr, 9, 9));
-  
+
   print_arr(arr);
-  
+
   allocate_zeroes(arr);
   printf("val of get_val after zero alloc 9,9: %f\n", *get_val(arr, 9, 9));
-  
+
   print_arr(arr);
 }
