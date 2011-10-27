@@ -1,13 +1,13 @@
 DIRS = src
 
-CXXFLAGS = -pedantic -Wall -Werror -Wextra -O3
+CXXFLAGS = -pedantic -Wall -Werror -Wextra -std=c99
 CXX      = gcc
 
 CLIENT = bin/HeatConduction
 
 all: $(CLIENT)
 
-debug: CXXFLAGS += -O3 -g
+debug: CXXFLAGS += -g
 debug: all
 
 prof: CXXFLAGS += -pg
@@ -28,7 +28,7 @@ $(dep): %.d: %.c
 	$(CXX) -MT "$(@:.d=.o) $@" -MM $(CXXFLAGS) $< > $@
 
 clean:
-	$(RM) $(CLIENT) $(SERVER) $(EDITOR) $(obj1) $(obj2) $(obj4) $(dep)
+	$(RM) $(CLIENT) $(obj1) $(obj2) $(dep)
 
 ifneq ($(MAKECMDGOALS),clean)
   include $(dep)
