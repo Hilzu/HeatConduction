@@ -1,3 +1,5 @@
 dist/
 build/
 nbproject/
+src/*.o
+src/*.d
