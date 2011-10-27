@@ -9,8 +9,7 @@ struct _Array {
 
 Array* new_array(unsigned int width, unsigned int height)
 {
-    Array* arr_ptr = malloc(sizeof(Array));
-    arr_ptr->arr = malloc(width * height * (sizeof double));
+    Array* arr_ptr = malloc(sizeof(Array) + width * height * (sizeof(double)));
     return arr_ptr;
 }
 
