@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "array.h"
+#include "math.h"
 
 void calculate_point(Array* arr, unsigned int column, unsigned int row)
 {
