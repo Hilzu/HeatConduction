@@ -4,11 +4,15 @@
 
 int is_set(int argc, char** argv, char option)
 {
-  for (int i=1;i<argc;++i)
+  for (int i=1; i<argc; ++i)
   {
     if (argv[i][0] == '-')
+    {
       if (argv[i][1] == option)
+      {
         return i;
+      }
+    }
   }
   return 0;
 }
@@ -37,13 +41,15 @@ void initialize_array(Array* arr, double top, double right, double bottom, doubl
 
 int get_number(char* string, int* pos)
 {
-  int number = string[(*pos)++]-48;
-  while(string[*pos] != ':' || string[*pos] != 0)
+  int number = 0;
+  while(string[*pos] > 47 && string[*pos] < 58)
   {
+    printf("--%c--", string[*pos]);
+    number += string[*pos]-48;
     number *= 10;
-    number += string[(*pos)++]-48;
+    *pos +=1;
   }
-  return number;
+  return number/10;
 }
 
 void get_dimensions(int argc, char** argv, int* arr)
@@ -51,14 +57,16 @@ void get_dimensions(int argc, char** argv, int* arr)
   arr[0] = 1000;
   arr[1] = 2000;
   int pos = is_set(argc,argv, 's');
+  printf("-s = %d\n", pos);
   if (pos > 0)
   {
     int spos = 0;
     arr[0] *= get_number(argv[pos+1], &spos);
-    spos++;
+    ++spos;
     arr[1] = 1000 * get_number(argv[pos+1], &spos);
   }
   pos = is_set(argc, argv, 'm');
+  printf("-m = %d\n", pos);
   if (pos > 0)
   {
     int spos = 0;
