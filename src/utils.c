@@ -38,7 +38,7 @@ void initialize_array(Array* arr, double top, double right, double bottom, doubl
 int get_number(char* string, int* pos)
 {
   int number = string[(*pos)++]-48;
-  while(string[*pos] != : || string[*pos] != 0)
+  while(string[*pos] != ':' || string[*pos] != 0)
   {
     number *= 10;
     number += string[(*pos)++]-48;
