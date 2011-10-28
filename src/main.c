@@ -6,10 +6,6 @@
 
 int main(int argc, char** argv)
 {
-  printf(" 0 = %d, 1 = %d, 9 = %d\n", '0', '1', '9');
-  printf("argc = %d,", argc);
-  printf("argv h = %d,", is_set(argc, argv, 'h'));
-  printf("argv d = %d\n", is_set(argc, argv, 'd'));
   if (is_set(argc, argv, 'h') > 0 || argc <= 1) {
     print_help();
     return 0;

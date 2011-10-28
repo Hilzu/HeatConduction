@@ -44,7 +44,7 @@ int get_number(char* string, int* pos)
   int number = 0;
   while(string[*pos] > 47 && string[*pos] < 58)
   {
-    printf("--%c--", string[*pos]);
+    //printf("--%c--", string[*pos]);
     number += string[*pos]-48;
     number *= 10;
     *pos +=1;
@@ -57,7 +57,6 @@ void get_dimensions(int argc, char** argv, int* arr)
   arr[0] = 1000;
   arr[1] = 2000;
   int pos = is_set(argc,argv, 's');
-  printf("-s = %d\n", pos);
   if (pos > 0)
   {
     int spos = 0;
@@ -66,7 +65,6 @@ void get_dimensions(int argc, char** argv, int* arr)
     arr[1] = 1000 * get_number(argv[pos+1], &spos);
   }
   pos = is_set(argc, argv, 'm');
-  printf("-m = %d\n", pos);
   if (pos > 0)
   {
     int spos = 0;
