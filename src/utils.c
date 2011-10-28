@@ -35,11 +35,11 @@ void initialize_array(Array* arr, double top, double right, double bottom, doubl
   }
 }
 
-void swap_ptrs(void* ptr1, void* ptr2)
+void swap_ptrs(void** ptr1, void** ptr2)
 {
-  void* temp = ptr1;
-  ptr1 = ptr2;
-  ptr2 = temp;
+  void* temp = *ptr1;
+  *ptr1 = *ptr2;
+  *ptr2 = temp;
 }
 
 void print_help()
