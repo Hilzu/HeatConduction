@@ -35,7 +35,7 @@ void print_arr(Array* arr_ptr)
 {
   for (unsigned int row = 0; row < arr_ptr->height; row++) {
     for (unsigned int col = 0; col < arr_ptr->width; col++) {
-      printf("%10.3f ", *get_el_ptr(arr_ptr, row, col));
+      printf("%4.0f ", *get_el_ptr(arr_ptr, row, col));
     }
     printf("\n");
   }
