@@ -13,6 +13,17 @@ int is_default(int argc, char** argv)
   return 0;
 }
 
+int asking_help(int argc, char** argv)
+{
+  for (int i=1;i<argc;++i)
+  {
+    if (argv[i][0] == '-')
+      if (argv[i][1] == 'h')
+        return 1;
+  }
+  return 0;
+}
+
 void initialize_array(Array* arr, double top, double right, double bottom, double left)
 {
   for (unsigned int i=0; i < arr->width; ++i)
