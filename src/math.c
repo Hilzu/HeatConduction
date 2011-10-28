@@ -35,22 +35,22 @@ double calculate_heatconduct(Array* arr, unsigned int max_iters)
 
   Array* temp_arr = new_array(arr->width, arr->height);
   copy_array(arr, temp_arr);
-  
+
   double prev_mean = -1;
   for (unsigned int i = 0; i < max_iters; ++i) {
     double new_mean = calculate_iteration(arr, temp_arr);
-    
+
     swap_ptrs((void**) &arr, (void**) &temp_arr);
-    
+
     printf("Iter: %d Mean: %.15f\n", i + 1, new_mean);
-    
-    
+
+
     if (fabs(new_mean - prev_mean) < 0.0000000000001) {
       printf("Found balance after %d iterations.\n", i);
       del_array(temp_arr);
       return new_mean;
     }
-    
+
     prev_mean = new_mean;
   }
   del_array(temp_arr);

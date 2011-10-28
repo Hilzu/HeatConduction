@@ -80,7 +80,7 @@ void arr_test()
 
   printf("arr1:\n");
   print_arr(arr);
-  
+
   Array* arr2 = new_array(10, 10);
   copy_array(arr, arr2);
   printf("arr2:\n");

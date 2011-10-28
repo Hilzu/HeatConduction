@@ -18,11 +18,12 @@ int main(int argc, char** argv)
     printf("Initializing array with side temperatures of 0 1000 1000 1000...\n");
     //print_arr(arr);
 
-    double mean_temp = calculate_heatconduct(arr, 1000);
-    printf("Calculating temperatures for 1000 iterations...\n");
+    printf("Calculating temperatures for 100000 iterations...\n");
+    double mean_temp = calculate_heatconduct(arr, 1000000);
     //print_arr(arr);
 
     printf("Mean temperature: %10.5f\n", mean_temp);
+    del_array(arr);
     return 0;
   }
   int args[4] = {0};
@@ -33,9 +34,10 @@ int main(int argc, char** argv)
   initialize_array(arr, args[0], args[1], args[2], args[3]);
   printf("Initializing array with side temperatures of %d %d %d %d...\n", args[0], *(args+1), 2[args], *(3+args));
 
-  double mean_temp = calculate_heatconduct(arr, 1000);
-  printf("Calculating temperatures for 1000 iterations...\n");
+  printf("Calculating temperatures for 100000 iterations...\n");
+  double mean_temp = calculate_heatconduct(arr, 1000000);
 
   printf("Mean temperature: %10.5f\n", mean_temp);
+  del_array(arr);
   return 0;
 }
