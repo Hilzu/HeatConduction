@@ -17,20 +17,20 @@ void initialize_array(Array* arr, double top, double right, double bottom, doubl
 {
   for (unsigned int i=0; i < arr->width; ++i)
   {
-    *get_val(arr, 0, i) = top;
-    *get_val(arr, arr->height-1, i) = bottom;
+    *get_el_ptr(arr, 0, i) = top;
+    *get_el_ptr(arr, arr->height-1, i) = bottom;
   }
   for (unsigned int i=0; i< arr->height; ++i)
   {
-    *get_val(arr, i, 0) = left;
-    *get_val(arr, i, arr->width-1) = right;
+    *get_el_ptr(arr, i, 0) = left;
+    *get_el_ptr(arr, i, arr->width-1) = right;
   }
   double set = (top+right+bottom+left)/4;
   for (unsigned int i=1; i< arr->height - 1; ++i)
   {
     for (unsigned int k=1; k< arr->width - 1; ++k)
     {
-      *get_val(arr, i, k) = set;
+      *get_el_ptr(arr, i, k) = set;
     }
   }
 }

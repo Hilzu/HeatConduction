@@ -20,12 +20,11 @@ void allocate_zeroes(Array* arr_ptr)
 
 void del_array(Array* arr_ptr)
 {
-  free(arr_ptr->arr);
   free(arr_ptr);
   arr_ptr = NULL;
 }
 
-double* get_val(Array* arr_ptr, unsigned int row, unsigned int col)
+double* get_el_ptr(Array* arr_ptr, unsigned int row, unsigned int col)
 {
   unsigned int index = 0;
   index = row * arr_ptr->width + col;
@@ -36,7 +35,7 @@ void print_arr(Array* arr_ptr)
 {
   for (unsigned int row = 0; row < arr_ptr->height; row++) {
     for (unsigned int col = 0; col < arr_ptr->width; col++) {
-      printf("%10.3f ", *get_val(arr_ptr, row, col));
+      printf("%10.3f ", *get_el_ptr(arr_ptr, row, col));
     }
     printf("\n");
   }
@@ -49,22 +48,24 @@ void arr_test()
 
   print_arr(arr);
 
-  double* dblptr = get_val(arr, 0, 0);
+  double* dblptr = get_el_ptr(arr, 0, 0);
   printf("uninitialized 0,0: %f\n", *dblptr);
   *dblptr = 3;
   printf("val of dblptr 0,0: %f\n", *dblptr);
-  printf("val of get_val 0,0: %f\n", *get_val(arr, 0, 0));
+  printf("val of get_val 0,0: %f\n", *get_el_ptr(arr, 0, 0));
 
-  dblptr = get_val(arr, 9, 9);
+  dblptr = get_el_ptr(arr, 9, 9);
   printf("uninitialized 9,9: %f\n", *dblptr);
   *dblptr = 11;
   printf("val of dblptr 9,9: %f\n", *dblptr);
-  printf("val of get_val 9,9: %f\n", *get_val(arr, 9, 9));
+  printf("val of get_val 9,9: %f\n", *get_el_ptr(arr, 9, 9));
 
   print_arr(arr);
 
   allocate_zeroes(arr);
-  printf("val of get_val after zero alloc 9,9: %f\n", *get_val(arr, 9, 9));
+  printf("val of get_val after zero alloc 9,9: %f\n", *get_el_ptr(arr, 9, 9));
 
   print_arr(arr);
+  
+  del_array(arr);
 }
