@@ -2,24 +2,13 @@
 #include "array.h"
 #include "utils.h"
 
-int is_default(int argc, char** argv)
+int is_set(int argc, char** argv, char option)
 {
   for (int i=1;i<argc;++i)
   {
     if (argv[i][0] == '-')
-      if (argv[i][1] == 'd')
-        return 1;
-  }
-  return 0;
-}
-
-int asking_help(int argc, char** argv)
-{
-  for (int i=1;i<argc;++i)
-  {
-    if (argv[i][0] == '-')
-      if (argv[i][1] == 'h')
-        return 1;
+      if (argv[i][1] == option)
+        return i;
   }
   return 0;
 }
@@ -43,6 +32,61 @@ void initialize_array(Array* arr, double top, double right, double bottom, doubl
     {
       *get_el_ptr(arr, i, k) = set;
     }
+  }
+}
+
+int get_number(char* string, int* pos)
+{
+  int number = string[(*pos)++]-48;
+  while(string[*pos] != : || string[*pos] != 0)
+  {
+    number *= 10;
+    number += string[(*pos)++]-48;
+  }
+  return number;
+}
+
+void get_dimensions(int argc, char** argv, int* arr)
+{
+  arr[0] = 1000;
+  arr[1] = 2000;
+  int pos = is_set(argc,argv, 's');
+  if (pos > 0)
+  {
+    int spos = 0;
+    arr[0] *= get_number(argv[pos+1], &spos);
+    spos++;
+    arr[1] = 1000 * get_number(argv[pos+1], &spos);
+  }
+  pos = is_set(argc, argv, 'm');
+  if (pos > 0)
+  {
+    int spos = 0;
+    arr[0] /= 1000;
+    arr[1] /= 1000;
+    arr[0] *= get_number(argv[pos+1], &spos);
+    spos = 0;
+    arr[1] *= get_number(argv[pos+1], &spos);
+  }
+}
+
+void get_temperatures(int argc, char** argv, int* arr)
+{
+  arr[0] = 0;
+  arr[1] = 1000;
+  arr[2] = 1000;
+  arr[3] = 1000;
+  int pos = is_set(argc, argv, 't');
+  if (pos > 0)
+  {
+    int spos = 0;
+    arr[0] = get_number(argv[pos+1], &spos);
+    spos++;
+    arr[1] = get_number(argv[pos+1], &spos);
+    spos++;
+    arr[2] = get_number(argv[pos+1], &spos);
+    spos++;
+    arr[3] = get_number(argv[pos+1], &spos);
   }
 }
 
