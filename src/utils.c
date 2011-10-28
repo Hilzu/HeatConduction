@@ -38,16 +38,17 @@ void initialize_array(Array* arr, double top, double right, double bottom, doubl
 void print_help()
 {
   printf("Usage: ./HeatConduction [options]\n\n");
-  printf("HeatConduction - a schoolproject made in c. Purpose is to calculate conductivity of heat in an object.\n\n");
+  printf("HeatConduction - a schoolproject made in c. Purpose is to calculate conductivity\nof heat in an object. Important information about object should be known, like\nshape and what temperature is on the edges. You can also specify how accurate\nshould the result be and how many points should it use to calculate. Bigger\nmeans more accurate result. Default values: 1:2 times 1000 (1000x2000) where\ntemperatures are as follows: 0:1000:1000:1000\n\n");
   printf("Options:\n");
   printf("-d\t\tRun the program with default settings as described ^.\n");
   printf("-h\t\tShow this help message and exit\n");
-  printf("-a ACCURACY\taccuracy parameter to control end result\n");
-  printf("-h HEIGHT\tHeight of the object examined\n");
-  printf("-w WIDTH\tWidth of the object examined\n");
+  //printf("-a ACCURACY\taccuracy parameter to control end result\n");
+  printf("-s WIDTH:HEIGHT\tHow is the box scaled. For example: 2:1 (means 2mx1m dimension\n\t\tobject)\n");
+  printf("-m MULTIPLIER\tHow many times is the scale multiplied by. \n\t\tBigger number = more accurate result.\n");
+  //printf("-h HEIGHT\tHeight of the object examined\n");
+  //printf("-w WIDTH\tWidth of the object examined\n");
   printf("-t TOP:RIGHT:BOTTOM:LEFT\n");
-  printf("\t\tAssign temperature value to corresponding place\n");
-  printf("\t\tExample: \"-t 1000:0:50:200\" where the numbers are\n");
-  printf("\t\tKelvins.\n\n");
+  printf("\t\tAssign temperature value to corresponding place. ");
+  printf("Example: \n\t\t\"-t 1000:0:50:200\" where the numbers are Kelvins.\n");
   printf("HeatConduct (C) 2011 Fail Team\n");
 }
