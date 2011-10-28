@@ -41,6 +41,24 @@ void print_arr(Array* arr_ptr)
   }
 }
 
+void copy_array(Array* from, Array* to)
+{
+  if (to->width < from->width) {
+    printf("Can't copy to an array with smaller width!");
+    exit(1);
+  }
+  if (to->height < from->height) {
+    printf("Can't copy to an array with smaller height!");
+    exit(1);
+  }
+
+  for (unsigned int row = 0; row < from->height; ++row) {
+    for (unsigned int col = 0; col < from->width; ++col) {
+      *get_el_ptr(to, row, col) = *get_el_ptr(from, row, col);
+    }
+  }
+}
+
 void arr_test()
 {
   Array* arr = new_array(10, 10);
@@ -60,12 +78,19 @@ void arr_test()
   printf("val of dblptr 9,9: %f\n", *dblptr);
   printf("val of get_val 9,9: %f\n", *get_el_ptr(arr, 9, 9));
 
+  printf("arr1:\n");
   print_arr(arr);
+  
+  Array* arr2 = new_array(10, 10);
+  copy_array(arr, arr2);
+  printf("arr2:\n");
+  print_arr(arr2);
 
   allocate_zeroes(arr);
   printf("val of get_val after zero alloc 9,9: %f\n", *get_el_ptr(arr, 9, 9));
 
   print_arr(arr);
-  
+
   del_array(arr);
+  del_array(arr2);
 }
