@@ -12,6 +12,7 @@ void del_array(Array* arr_ptr);
 double* get_el_ptr(Array* arr_ptr, unsigned int row, unsigned int col);
 void print_arr(Array* arr_ptr);
 void arr_test();
+void copy_array(Array* from, Array* to);
 
 #endif  /* ARRAY_H */
 
