@@ -1,9 +1,9 @@
-#ifndef FUNCTIONS_H_INCLUDED
-#define FUNCTIONS_H_INCLUDED
+#ifndef MATH_H
+#define MATH_H
 
-void calculate_point();
-void calculate_iteration();
-double calculate_result();
+double calculate_point_temp();
+void calculate_iteration(Array* from, Array* to);
+double calculate_mean_temp(Array* arr);
 double calculate_heatconduct(Array*, unsigned int);
 
-#endif
+#endif /* MATH_H */

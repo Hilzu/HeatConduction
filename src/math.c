@@ -1,38 +1,35 @@
 #include <stdio.h>
 #include "array.h"
 #include "math.h"
+#include "utils.h"
 
-void calculate_point(Array* arr, unsigned int row, unsigned int column)
+double calculate_point_temp(Array* arr, unsigned int row, unsigned int column)
 {
-  double a = *get_el_ptr(arr, row-1, column);
-  double b = *get_el_ptr(arr, row+1, column);
-  double c = *get_el_ptr(arr, row, column-1);
-  double d = *get_el_ptr(arr, row, column+1);
-  *get_el_ptr(arr, column, row) = ((a+b+c+d)/4);
+  double a = *get_el_ptr(arr, row - 1, column);
+  double b = *get_el_ptr(arr, row + 1, column);
+  double c = *get_el_ptr(arr, row, column - 1);
+  double d = *get_el_ptr(arr, row, column + 1);
+  return (a + b + c + d) / 4;
 }
 
-void calculate_iteration(Array* arr)
+void calculate_iteration(Array* from, Array* to)
 {
-  for (unsigned int i=1;i < ((arr->height) -1); ++i) // rows
-  {
-    for (unsigned int k=1;k < ((arr->width) -1); ++k) // columns
-    {
-      calculate_point(arr, i ,k);
+  for (unsigned int row = 1; row < ((from->height) - 1); ++row) {
+    for (unsigned int col = 1; col < ((from->width) - 1); ++col) {
+      *get_el_ptr(to, row, col) = calculate_point_temp(from, row, col);
     }
   }
 }
 
-double calculate_result(Array* arr)
+double calculate_mean_temp(Array* arr)
 {
-  double retu = 0;
-  for (unsigned int i=1;i< arr->height-1; ++i) // rows
-  {
-    for (unsigned int k=1;k< arr->width-1; ++k) // columns
-    {
-      retu += *get_el_ptr(arr, i ,k);
+  double sum = 0;
+  for (unsigned int row = 1; row < arr->height - 1; ++row) {
+    for (unsigned int col = 1; col < arr->width - 1; ++col) {
+      sum += *get_el_ptr(arr, row, col);
     }
   }
-  return retu/((arr->width-1)*(arr->height-1));
+  return sum / ((arr->width - 2)*(arr->height - 2));
 }
 
 /*
@@ -40,15 +37,22 @@ double calculate_result(Array* arr)
  */
 double calculate_heatconduct(Array* arr, unsigned int iterations)
 {
+
   if (iterations == 0 || arr->width < 3 || arr->height < 3)
     return -1;
 
-  for (unsigned int i = 0; i< iterations; ++i)
-  {
-    calculate_iteration(arr);
-  }
+  Array* temp_arr = new_array(arr->width, arr->height);
+  copy_array(arr, temp_arr);
 
-  return calculate_result(arr);
+  for (unsigned int i = 0; i < iterations; ++i) {
+    calculate_iteration(arr, temp_arr);
+    swap_ptrs((void**) &arr ,(void**) &temp_arr);
+    printf("After iter %d:\n", i + 1);
+    print_arr(arr);
+  }
+  //del_array(temp_arr);
+
+  return calculate_mean_temp(arr);
 }
 
 
