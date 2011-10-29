@@ -26,9 +26,11 @@ void del_array(Array* arr_ptr)
 
 double* get_el_ptr(Array* arr_ptr, unsigned int row, unsigned int col)
 {
-  unsigned int index = 0;
-  index = row * arr_ptr->width + col;
-  return &(arr_ptr->arr[index]);
+  return &(arr_ptr->arr[row * arr_ptr->width + col]);
+}
+
+double get_val(const Array* arr_ptr, unsigned int row, unsigned int col) {
+  return arr_ptr->arr[row * arr_ptr->width + col];
 }
 
 void print_arr(Array* arr_ptr)
