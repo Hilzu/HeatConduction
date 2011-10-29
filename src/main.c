@@ -10,8 +10,8 @@ int main(int argc, char** argv)
     print_help();
     return 0;
   } else if (is_set(argc, argv, 'd') > 0) {
-    Array* arr = new_array(1000, 2000);
-    printf("Making array of size 1000x2000...\n");
+    Array* arr = new_array(100, 200);
+    printf("Making array of size 100x200...\n");
     //print_arr(arr);
 
     initialize_array(arr, 0, 1000, 1000, 1000);

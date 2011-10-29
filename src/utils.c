@@ -54,22 +54,22 @@ int get_number(char* string, int* pos)
 
 void get_dimensions(int argc, char** argv, int* arr)
 {
-  arr[0] = 1000;
-  arr[1] = 2000;
+  arr[0] = 100;
+  arr[1] = 200;
   int pos = is_set(argc,argv, 's');
   if (pos > 0)
   {
     int spos = 0;
     arr[0] *= get_number(argv[pos+1], &spos);
     ++spos;
-    arr[1] = 1000 * get_number(argv[pos+1], &spos);
+    arr[1] = 100 * get_number(argv[pos+1], &spos);
   }
   pos = is_set(argc, argv, 'm');
   if (pos > 0)
   {
     int spos = 0;
-    arr[0] /= 1000;
-    arr[1] /= 1000;
+    arr[0] /= 100;
+    arr[1] /= 100;
     arr[0] *= get_number(argv[pos+1], &spos);
     spos = 0;
     arr[1] *= get_number(argv[pos+1], &spos);
@@ -99,7 +99,7 @@ void get_temperatures(int argc, char** argv, int* arr)
 void print_help()
 {
   printf("Usage: ./HeatConduction [options]\n\n");
-  printf("HeatConduction - a schoolproject made in c. Purpose is to calculate conductivity\nof heat in an object. Important information about object should be known, like\nshape and what temperature is on the edges. You can also specify how accurate\nshould the result be and how many points should it use to calculate. Bigger\nmeans more accurate result. Default values: 1:2 times 1000 (1000x2000) where\ntemperatures are as follows: 0:1000:1000:1000\n\n");
+  printf("HeatConduction - a schoolproject made in c. Purpose is to calculate conductivity\nof heat in an object. Important information about object should be known, like\nshape and what temperature is on the edges. You can also specify how accurate\nshould the result be and how many points should it use to calculate. Bigger\nmeans more accurate result. Default values: 1:2 times 100 (100x200) where\ntemperatures are as follows: 0:1000:1000:1000\n\n");
   printf("Options:\n");
   printf("-d\t\tRun the program with default settings as described ^.\n");
   printf("-h\t\tShow this help message and exit\n");
