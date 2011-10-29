@@ -4,7 +4,8 @@ PROGRAM_DIRS := $(DIRS)
 INCLUDE_DIRS := -I src
 WARNINGS := -pedantic -Wall -Werror -Wextra
 CC      := gcc
-CCFLAGS := $(WARNINGS) -std=c99 -O3 $(INCLUDE_DIRS)
+CCFLAGS := $(WARNINGS) -std=c99 -D_POSIX_C_SOURCE=199309L $(INCLUDE_DIRS)
+LIBS := -lrt
 
 PROGRAM = bin/HeatConduction
 
@@ -37,7 +38,7 @@ $(PROGRAM): $(OBJ_PROGRAM)
 
 $(BIN)/%:
 	@echo LINK $@
-	@$(CC) $^ -o $@
+	@$(CC) $^ -o $@ $(LIBS)
 
 $(OBJ)/%.o: $(SRC)/%.c
 	@echo CC $@

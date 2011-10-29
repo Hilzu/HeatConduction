@@ -5,11 +5,13 @@
 
 double calculate_point_temp(Array* arr, unsigned int row, unsigned int column)
 {
+
   double a = *get_el_ptr(arr, row - 1, column);
   double b = *get_el_ptr(arr, row + 1, column);
   double c = *get_el_ptr(arr, row, column - 1);
   double d = *get_el_ptr(arr, row, column + 1);
-  return (a + b + c + d) / 4;
+  //return (*get_el_ptr(arr, row - 1, column) + *get_el_ptr(arr, row + 1, column) + *get_el_ptr(arr, row, column - 1) + *get_el_ptr(arr, row, column + 1)) * 0.25;
+  return (a+b+c+d) / 4;
 }
 
 double calculate_iteration(Array* from, Array* to)
@@ -29,24 +31,23 @@ double calculate_iteration(Array* from, Array* to)
  */
 double calculate_heatconduct(Array* arr, unsigned int max_iters)
 {
-
   if (max_iters == 0 || arr->width < 3 || arr->height < 3)
     return -1;
 
   Array* temp_arr = new_array(arr->width, arr->height);
   copy_array(arr, temp_arr);
 
-  double prev_mean = -1;
+  double prev_mean = -1,new_mean = 0;
   for (unsigned int i = 0; i < max_iters; ++i) {
-    double new_mean = calculate_iteration(arr, temp_arr);
+    new_mean = calculate_iteration(arr, temp_arr);
 
     swap_ptrs((void**) &arr, (void**) &temp_arr);
 
-    printf("Iter: %d Mean: %.15f\n", i + 1, new_mean);
+    //printf("Iter: %d Mean: %.15f\n", i + 1, new_mean);
 
 
     if (fabs(new_mean - prev_mean) < 0.0000000000001) {
-      printf("Found balance after %d iterations.\n", i);
+      //printf("Found balance after %d iterations.\n", i);
       del_array(temp_arr);
       return new_mean;
     }
@@ -54,7 +55,7 @@ double calculate_heatconduct(Array* arr, unsigned int max_iters)
     prev_mean = new_mean;
   }
   del_array(temp_arr);
-  printf("Didn't find balance after %d iterations.\n", max_iters);
+  //printf("Didn't find balance after %d iterations.\n", max_iters);
   return prev_mean;
 }
 
