@@ -107,8 +107,8 @@ void set_defaults()
 {
   conf.multiplier = 100;
   conf.max_iters = 100;
-  conf.height = 1;
-  conf.width = 2;
+  conf.height = 2;
+  conf.width = 1;
   conf.top_temp = 0;
   conf.left_temp = 1000;
   conf.bottom_temp = 1000;
