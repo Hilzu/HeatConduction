@@ -5,6 +5,7 @@ void print_help();
 void swap_ptrs(void** ptr1, void** ptr2);
 void parse_options(int argc, char** argv);
 void set_defaults();
+void check_conf();
 typedef struct {
   int defaults_flag;
   int help_flag;

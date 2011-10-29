@@ -42,7 +42,7 @@ double calculate_heatconduct(Array* arr, unsigned int max_iters)
 
     swap_ptrs((void**) &arr, (void**) &temp_arr);
 
-    printf("Iter: %d Mean: %.15f\n", i + 1, new_mean);
+    //printf("Iter: %d Mean: %.15f\n", i + 1, new_mean);
 
 
     if (fabs(new_mean - prev_mean) < 0.0000000000001) {

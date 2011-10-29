@@ -114,3 +114,23 @@ void set_defaults()
   conf.bottom_temp = 1000;
   conf.right_temp = 1000;
 }
+
+void check_conf()
+{
+  if (conf.multiplier < 1) {
+    printf("Multiplier can't be less than 1!\n");
+    exit(0);
+  }
+  if (conf.max_iters < 1) {
+    printf("Max iterations can't be less than 1!\n");
+    exit(0);
+  }
+  if (conf.height < 1) {
+    printf("Height ratio can't be less than 1!\n");
+    exit(0);
+  }
+  if (conf.width < 1) {
+    printf("Width ratio can't be less than 1!\n");
+    exit(0);
+  }
+}
