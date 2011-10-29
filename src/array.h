@@ -6,7 +6,7 @@ typedef struct _Array {
   unsigned int height;
   double arr[];
 }Array;
-void allocate_zeroes(Array* arr_ptr);
+void init_with_zeroes(Array* arr_ptr);
 Array* new_array(unsigned int width, unsigned int height);
 void del_array(Array* arr_ptr);
 double* get_el_ptr(Array* arr_ptr, unsigned int row, unsigned int col);

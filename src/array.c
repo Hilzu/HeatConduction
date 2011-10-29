@@ -1,29 +1,48 @@
+/*
+ This file defines an Array struct that is used to hold a two dimensional array
+ of double variables.
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "array.h"
 
+/*
+ Allocates memory for a new Array with given width and height and initializes
+ it with zeroes.
+ Returns the pointer to the new Array.
+ */
 Array* new_array(unsigned int width, unsigned int height)
 {
   Array* arr_ptr = malloc(sizeof (Array) + width * height * (sizeof (double)));
   arr_ptr->width = width;
   arr_ptr->height = height;
-  allocate_zeroes(arr_ptr);
+  init_with_zeroes(arr_ptr);
   return arr_ptr;
 }
 
-void allocate_zeroes(Array* arr_ptr)
+/*
+ Set every element in the given array to zero.
+ */
+void init_with_zeroes(Array* arr_ptr)
 {
   for (unsigned long int i = 0; i < arr_ptr->width * arr_ptr->height; i++) {
     arr_ptr->arr[i] = 0;
   }
 }
 
+/*
+ Frees the memory taken by the Array and sets the pointer to NULL.
+ */
 void del_array(Array* arr_ptr)
 {
   free(arr_ptr);
   arr_ptr = NULL;
 }
 
+/*
+ Returns a pointer to an element in the array at given row and column.
+ */
 double* get_el_ptr(Array* arr_ptr, unsigned int row, unsigned int col)
 {
   unsigned int index = 0;
@@ -31,6 +50,9 @@ double* get_el_ptr(Array* arr_ptr, unsigned int row, unsigned int col)
   return &(arr_ptr->arr[index]);
 }
 
+/*
+ Print the array.
+ */
 void print_arr(Array* arr_ptr)
 {
   for (unsigned int row = 0; row < arr_ptr->height; row++) {
@@ -41,8 +63,12 @@ void print_arr(Array* arr_ptr)
   }
 }
 
+/*
+ Copy values from one array to another.
+ */
 void copy_array(Array* from, Array* to)
 {
+  // Prevent copying to a smaller Array.
   if (to->width < from->width) {
     printf("Can't copy to an array with smaller width!");
     exit(1);
@@ -59,6 +85,9 @@ void copy_array(Array* from, Array* to)
   }
 }
 
+/*
+ Function used to test that Array and it's functions work.
+ */
 void arr_test()
 {
   Array* arr = new_array(10, 10);
@@ -86,7 +115,7 @@ void arr_test()
   printf("arr2:\n");
   print_arr(arr2);
 
-  allocate_zeroes(arr);
+  init_with_zeroes(arr);
   printf("val of get_val after zero alloc 9,9: %f\n", *get_el_ptr(arr, 9, 9));
 
   print_arr(arr);
