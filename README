@@ -8,3 +8,19 @@ Sen ratkaisu antaa lämpötilan tasapainojakauman mielivaltaisessa kaksiulotteis
 Ti+1(x,y) = 1/4 (Ti(x+1,y) + Ti(x-1,y) + Ti(x,y+1) + Ti(x,y-1)
 
 eli yksinkertaisesti keskiarvona neljän lähimmän naapuripisteen lämpötilasta edellisellä iteraatio-askeleella. Kirjoita ohjelma, joka ratkaisee lämmönjohtumisyhtälön kahdessa ulottuvuudessa suorakulmaisessa kappaleessa, jonka korkeus on 2 m ja leveys 1 m. Suorakulmion pohjalla ja sivuilla lämpötila on 1000 K, mutta sen yläreunalla 0 K. Mikä on keskilämpötila kappaleessa, kun tasapaino on saavutettu?
+
+
+HeatConduction - C program is designed to calculate the final mean temperature in an object of width 1 m and height 2 m. Edge temperatures are top: 0K and rest (left side, right side, bottom) are 1000k.
+
+This program uses default values of above with dimensions multiplied by 100 and it will do this for maximum of 100000 iterations. The matrix is filled with default values of edges summed together divided by 4. As for final result, the edges are excluded from the result. These values give result that has approx. error of 1Kelvin.
+
+The program uses the above as default configuration if you don't specify otherwise.
+Counting the above is done by following command:
+
+"./bin/HeatConduction -d" where '-d' is option switch for "default". If '-d' is priorized switch and will overrule everything else, but '-h'.
+
+Another example:
+"./bin/HeatConduction -H 4 -m 10 -t 500 -l 0 -r 0 -v"
+This will calculate the Mean temperature in an object of size 1mx4m which is then multiplied by 10 to get the matrix used for counting the result (10x40). Then we specify that the object has top temperature of 500K and sides (right and left) are 0K, bottom is left default at 1000K. Lastly we say to verbose program output (-v will output iteration number and current mean temperature, -vv will add printing of the matrix).
+
+Calculations are done as following: We make another matrix of the same size as we are calculating. First we calculate the new values from old matrix to the new matrix. One point is calculated by taking value from each side and summing them together. Then we divide the result by 4 and put the new value in to the new matrix. After the iteration has finished calculating, we will swap the matrixes together so that before next calculation starts. We are reading the new matrix and calculating the next iteration to the old matrix. During the calculation of one iteration we also calculate the mean temperature. And by comparing it to the last iteration we check if we have found the result. We take the difference of last and current iterations mean temperature and then check if it's smaller than 0.000000001 or so. If it is smaller then we conclude that we have found answer for the current sized matrix.
