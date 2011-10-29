@@ -8,7 +8,7 @@
 Conf conf = {
   .defaults_flag = 0,
   .help_flag = 0,
-  .verbose_flag = 0,
+  .verbose = 0,
   .multiplier = 0,
   .max_iters = 0,
   .height = 0,
@@ -53,6 +53,7 @@ void print_help()
   printf("-i ITERATIONS\tMaximum number of iterations.\n");
   printf("-m MULTIPLIER\tTimes that width and height ratios are multiplied.\n");
   printf("-v\t\tPrint more information about calculation.\n");
+  printf("-vv\t\tPrint even more information.\n");
   printf("\nHeatConduct (C) 2011 Fail Team\n");
 }
 
@@ -99,7 +100,7 @@ void parse_options(int argc, char** argv)
       conf.max_iters = atoi(optarg);
       break;
     case 'v':
-      conf.verbose_flag = 1;
+      conf.verbose += 1;
       break;
     default:
       conf.help_flag = 1;
