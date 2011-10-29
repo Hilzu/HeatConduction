@@ -6,38 +6,30 @@
 
 int main(int argc, char** argv)
 {
-  if (is_set(argc, argv, 'h') > 0 || argc <= 1) {
+  parse_options(argc, argv);
+  
+  if (argc == 1 || conf.help_flag) {
     print_help();
-    return 0;
-  } else if (is_set(argc, argv, 'd') > 0) {
-    Array* arr = new_array(100, 200);
-    printf("Making array of size 100x200...\n");
-    //print_arr(arr);
-
-    initialize_array(arr, 0, 1000, 1000, 1000);
-    printf("Initializing array with side temperatures of 0 1000 1000 1000...\n");
-    //print_arr(arr);
-
-    printf("Calculating temperatures for 100000 iterations...\n");
-    double mean_temp = calculate_heatconduct(arr, 1000000);
-    //print_arr(arr);
-
-    printf("Mean temperature: %10.5f\n", mean_temp);
-    del_array(arr);
-    return 0;
+    exit(0);
   }
-  int args[4] = {0};
-  get_dimensions(argc, argv, args);
-  Array* arr = new_array(args[0],args[1]);
-  printf("Making array of size %dx%d...\n", args[0], args[1]);
-  get_temperatures(argc, argv, args);
-  initialize_array(arr, args[0], args[1], args[2], args[3]);
-  printf("Initializing array with side temperatures of %d %d %d %d...\n", args[0], *(args+1), 2[args], *(3+args));
-
-  printf("Calculating temperatures for 100000 iterations...\n");
-  double mean_temp = calculate_heatconduct(arr, 1000000);
-
-  printf("Mean temperature: %10.5f\n", mean_temp);
-  del_array(arr);
+  
+  if (conf.defaults_flag) {
+    set_defaults();
+  }
+  
+  unsigned int arr_width = conf.width * conf.multiplier;
+  unsigned int arr_height = conf.height * conf.multiplier;
+  printf("Creating array size of %dx%d.\n", arr_width, arr_height);
+  Array* arr = new_array(arr_width, arr_height);
+  
+  printf("Initializing with side temps of %f, %f, %f, %f.\n",
+          conf.top_temp, conf.right_temp, conf.bottom_temp, conf.left_temp);
+  initialize_array(arr, conf.top_temp, conf.right_temp, conf.bottom_temp, conf.left_temp);
+  
+  printf("Searching for temp balance with max iterations of %d.\n", conf.max_iters);
+  double mean_temp = calculate_heatconduct(arr, conf.max_iters);
+  
+  printf("Mean temperature: %f\n", mean_temp);
+  
   return 0;
 }
