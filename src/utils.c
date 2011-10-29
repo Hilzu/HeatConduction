@@ -43,15 +43,15 @@ void print_help()
   printf("Options:\n");
   printf("-d\t\tRun the program with default settings as described ^.\n");
   printf("-h\t\tShow this help message and exit\n");
-  //printf("-a ACCURACY\taccuracy parameter to control end result\n");
-  printf("-s WIDTH:HEIGHT\tHow is the box scaled. For example: 2:1 (means 2mx1m dimension\n\t\tobject)\n");
-  printf("-m MULTIPLIER\tHow many times is the scale multiplied by. \n\t\tBigger number = more accurate result.\n");
-  //printf("-h HEIGHT\tHeight of the object examined\n");
-  //printf("-w WIDTH\tWidth of the object examined\n");
-  printf("-t TOP:RIGHT:BOTTOM:LEFT\n");
-  printf("\t\tAssign temperature value to corresponding place. ");
-  printf("Example: \n\t\t\"-t 1000:0:50:200\" where the numbers are Kelvins.\n");
-  printf("HeatConduct (C) 2011 Fail Team\n");
+  printf("-W WIDTH\tRatio of width.\n");
+  printf("-H HEIGHT\tratio of height.\n");
+  printf("-t TEMP\t\tTemperature at top of object in Kelvins.\n");
+  printf("-l TEMP\t\tTemperature left of object in Kelvins.\n");
+  printf("-b TEMP\t\tTemperature at bottom of object in Kelvins.\n");
+  printf("-r TEMP\t\tTemperature right of object in Kelvins.\n");
+  printf("-i ITERATIONS\tMaximum number of iterations.\n");
+  printf("-m MULTIPLIER\tTimes that width and height ratios are multiplied.\n");
+  printf("\nHeatConduct (C) 2011 Fail Team\n");
 }
 
 void swap_ptrs(void** ptr1, void** ptr2)
