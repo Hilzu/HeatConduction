@@ -20,7 +20,7 @@ int main(int argc, char** argv)
     //print_arr(arr);
 
     printf("Calculating temperatures for 100000 iterations...\n");
-    double mean_temp = calculate_heatconduct(arr, 2000);
+    double mean_temp = calculate_heatconduct(arr, 5000);
     //print_arr(arr);
 
     printf("Mean temperature: %10.5f\n", mean_temp);
