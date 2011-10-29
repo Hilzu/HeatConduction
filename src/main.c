@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include "array.h"
 #include "utils.h"
-#include "math.h"
+#include "calcu.h"
 
 int main(int argc, char** argv)
 {
   set_defaults();
-  
+
   parse_options(argc, argv);
 
   if (argc == 1 || conf.help_flag) {

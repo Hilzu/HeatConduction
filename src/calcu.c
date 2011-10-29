@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "array.h"
-#include "math.h"
+#include "calcu.h"
 #include "utils.h"
 
 double calculate_point_temp(Array* arr, unsigned int row, unsigned int column)
