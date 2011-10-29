@@ -8,6 +8,7 @@
 Conf conf = {
   .defaults_flag = 0,
   .help_flag = 0,
+  .verbose_flag = 0,
   .multiplier = 0,
   .max_iters = 0,
   .height = 0,
@@ -51,6 +52,7 @@ void print_help()
   printf("-r TEMP\t\tTemperature right of object in Kelvins.\n");
   printf("-i ITERATIONS\tMaximum number of iterations.\n");
   printf("-m MULTIPLIER\tTimes that width and height ratios are multiplied.\n");
+  printf("-v\t\tPrint more information about calculation.\n");
   printf("\nHeatConduct (C) 2011 Fail Team\n");
 }
 
@@ -64,7 +66,7 @@ void swap_ptrs(void** ptr1, void** ptr2)
 void parse_options(int argc, char** argv)
 {
   int opt;
-  while ((opt = getopt(argc, argv, "dhm:W:H:t:l:b:r:i:")) != -1) {
+  while ((opt = getopt(argc, argv, "dhm:W:H:t:l:b:r:i:v")) != -1) {
     switch (opt) {
     case 'd':
       conf.defaults_flag = 1;
@@ -95,6 +97,9 @@ void parse_options(int argc, char** argv)
       break;
     case 'i':
       conf.max_iters = atoi(optarg);
+      break;
+    case 'v':
+      conf.verbose_flag = 1;
       break;
     default:
       conf.help_flag = 1;

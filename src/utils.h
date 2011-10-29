@@ -9,6 +9,7 @@ void check_conf();
 typedef struct {
   int defaults_flag;
   int help_flag;
+  int verbose_flag;
   unsigned int multiplier;
   unsigned int max_iters;
   unsigned int width;
