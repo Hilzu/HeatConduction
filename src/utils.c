@@ -112,7 +112,7 @@ void parse_options(int argc, char** argv)
 void set_defaults()
 {
   conf.multiplier = 100;
-  conf.max_iters = 100;
+  conf.max_iters = 100000;
   conf.height = 2;
   conf.width = 1;
   conf.top_temp = 0;
