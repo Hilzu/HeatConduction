@@ -1,3 +1,26 @@
+HeatConduction - C program is designed to calculate the final mean temperature in an object of width 1 m and height 2 m. Edge temperatures are top: 0K and rest (left side, right side, bottom) are 1000k.
+
+This program uses default values of above with dimensions multiplied by 100 and it will do this for maximum of 100000 iterations. The matrix is filled with default values of edges summed together divided by 4. As for final result, the edges are excluded from the result. These values give result that has approx. error of 1Kelvin.
+
+The program uses the above as default configuration if you don't specify otherwise.
+Counting the above is done by following command:
+
+"./bin/HeatConduction -d" where '-d' is option switch for "default". If '-d' is priorized switch and will overrule everything else, but '-h' which prints help and overrules everything else.
+
+Another example:
+"./bin/HeatConduction -H 4 -m 10 -t 500 -l 0 -r 0 -v"
+This will calculate the Mean temperature in an object of size 1mx4m which is then multiplied by 10 to get the matrix used for counting the result (10x40). Then we specify that the object has top temperature of 500K and sides (right and left) are 0K, bottom is left default at 1000K. Lastly we say to verbose program output (-v will output iteration number and current mean temperature, -vv will add printing of the matrix).
+
+Calculations are done as following: We make another matrix of the same size as we are calculating. First we calculate the new values from old matrix to the new matrix. One point is calculated by taking value from each side and summing them together. Then we divide the result by 4 and put the new value in to the new matrix. After the iteration has finished calculating, we will swap the matrixes together so that before next calculation starts. We are reading the new matrix and calculating the next iteration to the old matrix. During the calculation of one iteration we also calculate the mean temperature. And by comparing it to the last iteration we check if we have found the result. We take the difference of last and current iterations mean temperature and then check if it's smaller than 0.000000001 or so. If it is smaller then we conclude that we have found answer for the current sized matrix.
+
+Program had a need for user specified sized matrix. The assign didn't specify that we would have to do that, but it would have otherwise turned into a quite boring application. So now the application can calculate HeatConduction in user specified object. Matrix had to be implemented so that we can easily malloc it. We came to conclusion as to get space for normal array that is sized as the matrix and made functions to help the usage.
+
+Program is divided into 4 parts: Main, calc, utils, array files. Calc.c holds all the calculation algorithms, utils.c hold in all kinds of small things that program needs and array.c holds in the functions to manipulate our array struct. Array.c also has selftest so that we could see that the array works as intended. Lastly there is Main.c which links everything together and has the main() function.
+
+The program was coded in less than 18hours. Main program was finished in about 6 hours. At that point we had many bugs, but the functionality was about the same as it's now. In any point we didn't face a problem that we couln't solve in matter of minutes, but making this big c program took it's own time.
+
+What the program lacks is optimisations to the algorithms, but luckily the gcc compiler covered for us and made the program take about 3 times less time to calculate result for default values. Without -O3 switch it would take about 50s to calculate default case, where as enabling it took us down to about 14-17seconds.
+
 Stationaarisen tilan lämmönjohtumisyhtälö kahdessa ulottuvuudessa on
 
 d2T(x,y) /dx2 + d2T(x,y)/dy2 = 0.
@@ -8,19 +31,3 @@ Sen ratkaisu antaa lämpötilan tasapainojakauman mielivaltaisessa kaksiulotteis
 Ti+1(x,y) = 1/4 (Ti(x+1,y) + Ti(x-1,y) + Ti(x,y+1) + Ti(x,y-1)
 
 eli yksinkertaisesti keskiarvona neljän lähimmän naapuripisteen lämpötilasta edellisellä iteraatio-askeleella. Kirjoita ohjelma, joka ratkaisee lämmönjohtumisyhtälön kahdessa ulottuvuudessa suorakulmaisessa kappaleessa, jonka korkeus on 2 m ja leveys 1 m. Suorakulmion pohjalla ja sivuilla lämpötila on 1000 K, mutta sen yläreunalla 0 K. Mikä on keskilämpötila kappaleessa, kun tasapaino on saavutettu?
-
-
-HeatConduction - C program is designed to calculate the final mean temperature in an object of width 1 m and height 2 m. Edge temperatures are top: 0K and rest (left side, right side, bottom) are 1000k.
-
-This program uses default values of above with dimensions multiplied by 100 and it will do this for maximum of 100000 iterations. The matrix is filled with default values of edges summed together divided by 4. As for final result, the edges are excluded from the result. These values give result that has approx. error of 1Kelvin.
-
-The program uses the above as default configuration if you don't specify otherwise.
-Counting the above is done by following command:
-
-"./bin/HeatConduction -d" where '-d' is option switch for "default". If '-d' is priorized switch and will overrule everything else, but '-h'.
-
-Another example:
-"./bin/HeatConduction -H 4 -m 10 -t 500 -l 0 -r 0 -v"
-This will calculate the Mean temperature in an object of size 1mx4m which is then multiplied by 10 to get the matrix used for counting the result (10x40). Then we specify that the object has top temperature of 500K and sides (right and left) are 0K, bottom is left default at 1000K. Lastly we say to verbose program output (-v will output iteration number and current mean temperature, -vv will add printing of the matrix).
-
-Calculations are done as following: We make another matrix of the same size as we are calculating. First we calculate the new values from old matrix to the new matrix. One point is calculated by taking value from each side and summing them together. Then we divide the result by 4 and put the new value in to the new matrix. After the iteration has finished calculating, we will swap the matrixes together so that before next calculation starts. We are reading the new matrix and calculating the next iteration to the old matrix. During the calculation of one iteration we also calculate the mean temperature. And by comparing it to the last iteration we check if we have found the result. We take the difference of last and current iterations mean temperature and then check if it's smaller than 0.000000001 or so. If it is smaller then we conclude that we have found answer for the current sized matrix.
