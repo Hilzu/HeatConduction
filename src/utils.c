@@ -6,6 +6,7 @@
 #include "utils.h"
 
 /*
+ * Santeri Hiltunen
  Global struct that holds configuration options.
  */
 Conf conf = {
@@ -23,6 +24,7 @@ Conf conf = {
 };
 
 /*
+ * Juho Gävert
  Initialize array with edge values and estimate value for rest of the points
  Estimated value of points is mean of edge values.
  */
@@ -45,6 +47,7 @@ void initialize_array(Array* arr, double top, double right, double bottom, doubl
 }
 
 /*
+ * Juho Gävert & Santeri Hiltunen
  Print help message.
  */
 void print_help()
@@ -68,6 +71,7 @@ void print_help()
 }
 
 /*
+ * Santeri Hiltunen
  Make two pointer variables point to each other.
  */
 void swap_ptrs(void** ptr1, void** ptr2)
@@ -78,6 +82,7 @@ void swap_ptrs(void** ptr1, void** ptr2)
 }
 
 /*
+ * Santeri Hiltunen
  Parses commandline arguments and sets conf variables according to them.
  */
 void parse_options(int argc, char** argv)
@@ -126,6 +131,7 @@ void parse_options(int argc, char** argv)
 }
 
 /*
+ * Santeri Hiltunen
  Set conf to default values.
  */
 void set_defaults()
@@ -141,6 +147,7 @@ void set_defaults()
 }
 
 /*
+ * Santeri Hiltunen
  Check sanity of conf values.
  */
 void check_conf()

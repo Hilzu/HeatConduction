@@ -1,4 +1,5 @@
 /*
+ * Santeri Hiltunen
  This file defines an Array struct that is used to hold a two dimensional array
  of double variables.
  */
@@ -8,6 +9,7 @@
 #include "array.h"
 
 /*
+ * Santeri Hiltunen
  Allocates memory for a new Array with given width and height and initializes
  it with zeroes.
  Returns the pointer to the new Array.
@@ -22,6 +24,7 @@ Array* new_array(unsigned int width, unsigned int height)
 }
 
 /*
+ * Santeri Hiltunen
  Set every element in the given array to zero.
  */
 void init_with_zeroes(Array* arr_ptr)
@@ -32,6 +35,7 @@ void init_with_zeroes(Array* arr_ptr)
 }
 
 /*
+ * Santeri Hiltunen
  Frees the memory taken by the Array and sets the pointer to NULL.
  */
 void del_array(Array* arr_ptr)
@@ -41,6 +45,7 @@ void del_array(Array* arr_ptr)
 }
 
 /*
+ * Santeri Hiltunen
  Returns a pointer to an element in the array at given row and column.
  */
 double* get_el_ptr(Array* arr_ptr, unsigned int row, unsigned int col)
@@ -51,6 +56,7 @@ double* get_el_ptr(Array* arr_ptr, unsigned int row, unsigned int col)
 }
 
 /*
+ * Santeri Hiltunen
  Print the array.
  */
 void print_arr(Array* arr_ptr)
@@ -63,7 +69,7 @@ void print_arr(Array* arr_ptr)
   }
 }
 
-/*
+/* Santeri Hiltunen
  Copy values from one array to another.
  */
 void copy_array(Array* from, Array* to)
@@ -86,6 +92,7 @@ void copy_array(Array* from, Array* to)
 }
 
 /*
+ * Santeri Hiltunen
  Function used to test that Array and it's functions work.
  */
 void arr_test()

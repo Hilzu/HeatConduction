@@ -8,6 +8,7 @@
 #include "utils.h"
 
 /*
+ * Juho Gävert
  Calculates new temperature of a point in Array. New temperature is the mean of
  temperatures of points next to current. Returns the new temperature.
  */
@@ -21,6 +22,7 @@ double calculate_point_temp(Array* arr, unsigned int row, unsigned int column)
 }
 
 /*
+ * Juho Gävert
  Calculates new temperature for all points in Array and stores them in the
  second array. After tempterature calculation, calculates mean temperature of
  all points, excluding edges, and returns it.
@@ -38,6 +40,7 @@ double calculate_iteration(Array* from, Array* to)
 }
 
 /*
+ * Juho Gävert & Santeri Hiltunen
  Starting point of calculation. Searches for temperature balance in Array for
  maximum iterations of max_iters.
  */
@@ -77,6 +80,7 @@ double calculate_heatconduct(Array* arr, unsigned int max_iters)
 }
 
 /*
+ * Santeri Hiltunen
  Returns absolute value of a double variable.
  */
 double fabs(double x)
