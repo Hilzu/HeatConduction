@@ -5,6 +5,9 @@
 #include "array.h"
 #include "utils.h"
 
+/*
+ Global struct that holds configuration options.
+ */
 Conf conf = {
   .defaults_flag = 0,
   .help_flag = 0,
@@ -19,6 +22,10 @@ Conf conf = {
   .right_temp = 0
 };
 
+/*
+ Initialize array with edge values and estimate value for rest of the points
+ Estimated value of points is mean of edge values.
+ */
 void initialize_array(Array* arr, double top, double right, double bottom, double left)
 {
   for (unsigned int i = 0; i < arr->width; ++i) {
@@ -37,6 +44,9 @@ void initialize_array(Array* arr, double top, double right, double bottom, doubl
   }
 }
 
+/*
+ Print help message.
+ */
 void print_help()
 {
   printf("Usage: ./HeatConduction [options]\n\n");
@@ -57,6 +67,9 @@ void print_help()
   printf("\nHeatConduct (C) 2011 Fail Team\n");
 }
 
+/*
+ Make two pointer variables point to each other.
+ */
 void swap_ptrs(void** ptr1, void** ptr2)
 {
   void* temp = *ptr1;
@@ -64,6 +77,9 @@ void swap_ptrs(void** ptr1, void** ptr2)
   *ptr2 = temp;
 }
 
+/*
+ Parses commandline arguments and sets conf variables according to them.
+ */
 void parse_options(int argc, char** argv)
 {
   int opt;
@@ -99,7 +115,7 @@ void parse_options(int argc, char** argv)
     case 'i':
       conf.max_iters = atoi(optarg);
       break;
-    case 'v':
+    case 'v': // Giving several v characters in options makes program even more verbose.
       conf.verbose += 1;
       break;
     default:
@@ -109,6 +125,9 @@ void parse_options(int argc, char** argv)
   }
 }
 
+/*
+ Set conf to default values.
+ */
 void set_defaults()
 {
   conf.multiplier = 100;
@@ -121,6 +140,9 @@ void set_defaults()
   conf.right_temp = 1000;
 }
 
+/*
+ Check sanity of conf values.
+ */
 void check_conf()
 {
   if (conf.multiplier < 1) {
