@@ -1,10 +1,10 @@
-#ifndef MATH_H
-#define MATH_H
+#ifndef CALCU_H
+#define CALCU_H
 
-double calculate_point_temp();
+double calculate_point_temp(Array* arr, unsigned int row, unsigned int column);
 double calculate_iteration(Array* from, Array* to);
 double calculate_mean_temp(Array* arr);
-double calculate_heatconduct(Array*, unsigned int);
+double calculate_heatconduct(Array* arr, unsigned int max_iters);
 double fabs(double x);
 
-#endif /* MATH_H */
+#endif /* CALCU_H */
