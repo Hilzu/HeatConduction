@@ -1,8 +1,16 @@
+/*
+ Actual calculation of temperature changes happens in this file.
+ */
+
 #include <stdio.h>
 #include "array.h"
 #include "calcu.h"
 #include "utils.h"
 
+/*
+ Calculates new temperature of a point in Array. New temperature is the mean of
+ temperatures of points next to current. Returns the new temperature.
+ */
 double calculate_point_temp(Array* arr, unsigned int row, unsigned int column)
 {
   double a = *get_el_ptr(arr, row - 1, column);
@@ -12,6 +20,11 @@ double calculate_point_temp(Array* arr, unsigned int row, unsigned int column)
   return (a + b + c + d) / 4;
 }
 
+/*
+ Calculates new temperature for all points in Array and stores them in the
+ second array. After tempterature calculation, calculates mean temperature of
+ all points, excluding edges, and returns it.
+ */
 double calculate_iteration(Array* from, Array* to)
 {
   double sum = 0;
@@ -25,7 +38,8 @@ double calculate_iteration(Array* from, Array* to)
 }
 
 /*
- * This is the only fuction you should be using
+ Starting point of calculation. Searches for temperature balance in Array for
+ maximum iterations of max_iters.
  */
 double calculate_heatconduct(Array* arr, unsigned int max_iters)
 {
@@ -62,6 +76,9 @@ double calculate_heatconduct(Array* arr, unsigned int max_iters)
   return prev_mean;
 }
 
+/*
+ Returns absolute value of a double variable.
+ */
 double fabs(double x)
 {
   if (x < 0)
