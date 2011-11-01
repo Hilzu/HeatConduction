@@ -10,20 +10,17 @@ int main(int argc, char** argv)
 
   parse_options(argc, argv);
 
-  if (argc == 1 || conf.help_flag) {
+  if (conf.help_flag) {
     print_help();
     exit(0);
-  }
-
-  if (conf.defaults_flag) {
-    set_defaults();
   }
 
   check_conf();
 
   unsigned int arr_width = conf.width * conf.multiplier;
   unsigned int arr_height = conf.height * conf.multiplier;
-  printf("Creating array size of %dx%d.\n", arr_width, arr_height);
+  
+  printf("Creating array size of %ux%u.\n", arr_width, arr_height);
   Array* arr = new_array(arr_width, arr_height);
 
   printf("Initializing with side temps of %f, %f, %f, %f.\n",

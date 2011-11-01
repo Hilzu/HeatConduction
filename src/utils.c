@@ -1,4 +1,3 @@
-F
 #include <stdio.h>
 #include <unistd.h>
 #include <getopt.h>
@@ -11,7 +10,6 @@ F
  Global struct that holds configuration options.
  */
 Conf conf = {
-  .defaults_flag = 0,
   .help_flag = 0,
   .verbose = 0,
   .multiplier = 0,
@@ -55,8 +53,7 @@ void print_help()
 {
   printf("Usage: ./HeatConduction [options]\n\n");
   printf("HeatConduction - a schoolproject made in c. Purpose is to calculate conductivity\nof heat in an object. Important information about object should be known, like\nshape and what temperature is on the edges. You can also specify how accurate\nshould the result be and how many points should it use to calculate. Bigger\nmeans more accurate result. Default values: 1:2 times 100 (100x200) where\ntemperatures are as follows: 0:1000:1000:1000\n\n");
-  printf("Options:\n");
-  printf("-d\t\tRun the program with default settings as described ^.\n");
+  printf("Options:\n");;
   printf("-h\t\tShow this help message and exit\n");
   printf("-W WIDTH\tRatio of width.\n");
   printf("-H HEIGHT\tratio of height.\n");
@@ -89,11 +86,8 @@ void swap_ptrs(void** ptr1, void** ptr2)
 void parse_options(int argc, char** argv)
 {
   int opt;
-  while ((opt = getopt(argc, argv, "dhm:W:H:t:l:b:r:i:v")) != -1) {
+  while ((opt = getopt(argc, argv, "hm:W:H:t:l:b:r:i:v")) != -1) {
     switch (opt) {
-    case 'd':
-      conf.defaults_flag = 1;
-      break;
     case 'h':
       conf.help_flag = 1;
       break;
@@ -149,23 +143,23 @@ void set_defaults()
 
 /*
  * Santeri Hiltunen
- Check sanity of conf values. 0xffffffff is UINT_MAX value.
+ Check sanity of conf values.
  */
 void check_conf()
 {
-  if (conf.multiplier < 1 || conf.multiplier >= 0xffffffff) {
+  if (conf.multiplier < 1) {
     printf("Multiplier can't be less than 1!\n");
     exit(0);
   }
-  if (conf.max_iters < 1 || conf.max_iters >= 0xffffffff {
+  if (conf.max_iters < 1) {
     printf("Max iterations can't be less than 1!\n");
     exit(0);
   }
-  if (conf.height < 1 || conf.height >= 0xffffffff) {
+  if (conf.height < 1) {
     printf("Height ratio can't be less than 1!\n");
     exit(0);
   }
-  if (conf.width < 1 || conf.width >= 0xffffffff) {
+  if (conf.width < 1) {
     printf("Width ratio can't be less than 1!\n");
     exit(0);
   }
