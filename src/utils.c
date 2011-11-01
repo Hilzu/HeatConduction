@@ -1,3 +1,4 @@
+F
 #include <stdio.h>
 #include <unistd.h>
 #include <getopt.h>
@@ -148,23 +149,23 @@ void set_defaults()
 
 /*
  * Santeri Hiltunen
- Check sanity of conf values.
+ Check sanity of conf values. 0xffffffff is UINT_MAX value.
  */
 void check_conf()
 {
-  if (conf.multiplier < 1) {
+  if (conf.multiplier < 1 || conf.multiplier >= 0xffffffff) {
     printf("Multiplier can't be less than 1!\n");
     exit(0);
   }
-  if (conf.max_iters < 1) {
+  if (conf.max_iters < 1 || conf.max_iters >= 0xffffffff {
     printf("Max iterations can't be less than 1!\n");
     exit(0);
   }
-  if (conf.height < 1) {
+  if (conf.height < 1 || conf.height >= 0xffffffff) {
     printf("Height ratio can't be less than 1!\n");
     exit(0);
   }
-  if (conf.width < 1) {
+  if (conf.width < 1 || conf.width >= 0xffffffff) {
     printf("Width ratio can't be less than 1!\n");
     exit(0);
   }

@@ -17,17 +17,4 @@ Program had a need for user specified sized matrix. The assign didn't specify th
 
 Program is divided into 4 parts: Main, calc, utils, array files. Calc.c holds all the calculation algorithms, utils.c hold in all kinds of small things that program needs and array.c holds in the functions to manipulate our array struct. Array.c also has selftest so that we could see that the array works as intended. Lastly there is Main.c which links everything together and has the main() function.
 
-The program was coded in less than 18hours. Main program was finished in about 6 hours. At that point we had many bugs, but the functionality was about the same as it's now. In any point we didn't face a problem that we couln't solve in matter of minutes, but making this big c program took it's own time.
-
 What the program lacks is optimisations to the algorithms, but luckily the gcc compiler covered for us and made the program take about 3 times less time to calculate result for default values. Without -O3 switch it would take about 50s to calculate default case, where as enabling it took us down to about 14-17seconds.
-
-Stationaarisen tilan lämmönjohtumisyhtälö kahdessa ulottuvuudessa on
-
-d2T(x,y) /dx2 + d2T(x,y)/dy2 = 0.
-
-
-Sen ratkaisu antaa lämpötilan tasapainojakauman mielivaltaisessa kaksiulotteisessa kappaleessa, kun reuna-ehdot on tunnettu. Yhtälön voi ratkaista numeerisesti hyvin yksinkertaisesti seuraavalla tavalla. Jaa haluttu tila neliölliseen hilaan. Tee mikä tahansa arvaus ratkaisulle T0(x,y), missä x ja y ovat nyt diskreettejä pisteitä neliöllisessä hilassa. Sen jälkeen iteroi ratkaisua siten, että jokaisessa pisteessä uuden iteraatio-askeleen i+1 uusi arvo Ti+1 lasketaan kaavalla
-
-Ti+1(x,y) = 1/4 (Ti(x+1,y) + Ti(x-1,y) + Ti(x,y+1) + Ti(x,y-1)
-
-eli yksinkertaisesti keskiarvona neljän lähimmän naapuripisteen lämpötilasta edellisellä iteraatio-askeleella. Kirjoita ohjelma, joka ratkaisee lämmönjohtumisyhtälön kahdessa ulottuvuudessa suorakulmaisessa kappaleessa, jonka korkeus on 2 m ja leveys 1 m. Suorakulmion pohjalla ja sivuilla lämpötila on 1000 K, mutta sen yläreunalla 0 K. Mikä on keskilämpötila kappaleessa, kun tasapaino on saavutettu?
