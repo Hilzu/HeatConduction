@@ -7,8 +7,8 @@ typedef struct _thread_data_t {
   int max_threads;
   double* mean;
   int* limits;
-  Array* luettava;
-  Array* kirjoitettava;
+  Array** luettava;
+  Array** kirjoitettava;
 } thread_data_t;
 
 int dividable(int,int,int);
