@@ -10,7 +10,7 @@
 #include <pthread.h>
 #include <unistd.h>
 
-#define NUM_THREADS 2
+#define NUM_THREADS 4
 
 /* thread function */
 
@@ -29,54 +29,52 @@ int dividable(int divided_by, int width, int height)
   return 0;
 }
 
-void give_limits(const thread_data_t* data, int* array)
+void give_limits(const thread_data_t* data)
 {
-  if (dividable(data->max_threads, (int)data->luettava->width, (int)data->luettava->height) == 1)
+  printf("derp");
+  if (dividable(data->max_threads, (int)data->luettava->width-2, (int)data->luettava->height-2) == 1)
   {
-    array[0] = (int)data->luettava->width / data->max_threads * data->thread_number;
-    array[2] = (int)data->luettava->width / data->max_threads * (data->thread_number +1);
-    array[1] = 0;
-    array[3] = (int)data->luettava->height;
+    data->limits[0] = (((int)data->luettava->width-2) / data->max_threads * data->thread_number)+1;
+    data->limits[2] = ((int)data->luettava->width-2) / data->max_threads * (data->thread_number +1);
+    data->limits[1] = 1;
+    data->limits[3] = (int)data->luettava->height-1;
   }
-  else if (dividable(data->max_threads, (int)data->luettava->width, (int)data->luettava->height) == 2)
+  else if (dividable(data->max_threads, (int)data->luettava->width-2, (int)data->luettava->height-2) == 2)
 
   {
-    array[1] = (int)data->luettava->height / data->max_threads * data->thread_number;
-    array[3] = (int)data->luettava->height / data->max_threads * (data->thread_number +1);
-    array[0] = 0;
-    array[2] = (int)data->luettava->width;
+    data->limits[1] = ((int)data->luettava->height-2) / data->max_threads * data->thread_number+1;
+    data->limits[3] = ((int)data->luettava->height-2) / data->max_threads * (data->thread_number +1);
+    data->limits[0] = 1;
+    data->limits[2] = (int)data->luettava->width-1;
   }
 }
 
 void *thr_func(void *arg) {
   thread_data_t *data = (thread_data_t *)arg;
-  int calc[4] = { 0 };
-  give_limits(data, &(calc[0]));
-  printf("we got thread!\nmaxwdth: %u: %d %d\nmaxheight: %u %d %d\n", data->luettava->width, calc[0], calc[2], data->luettava->height, calc[1], calc[3]);
+  printf("we got thread!\nmaxwdth: %u: %d %d\nmaxheight: %u %d %d\n", data->luettava->width, data->limits[0], data->limits[2], data->luettava->height, data->limits[1], data->limits[3]);
   double* mean = data->mean;
 
-  for (int y = calc[0]; y < calc[2]; ++y)
+  for (int y = data->limits[0]; y < data->limits[2]; ++y)
   {
-    for (int x = calc[1]; x < calc[3]; ++x)
+    for (int x = data->limits[1]; x < data->limits[3]; ++x)
     {
       *get_el_ptr(data->kirjoitettava, x, y) = calculate_point_temp(data->luettava, x, y);
       *mean += *get_el_ptr(data->kirjoitettava, x, y);
     }
   }
-
   pthread_exit(NULL);
 }
 
 void calc(void *arg) {
   thread_data_t *data = (thread_data_t *)arg;
-  int calc[4] = { 0 };
-  give_limits(data, &(calc[0]));
   double* mean = data->mean;
 
-  for (int y = calc[0]; y < calc[2]; ++y)
+  printf("we got main!\nmaxwdth: %u: %d %d\nmaxheight: %u %d %d\n", data->luettava->width, data->limits[0], data->limits[2], data->luettava->height, data->limits[1], data->limits[3]);
+  for (int y = data->limits[0]; y < data->limits[2]; ++y)
   {
-    for (int x = calc[1]; x < calc[3]; ++x)
+    for (int x = data->limits[1]; x < data->limits[3]; ++x)
     {
+      //printf("cur pos: (%d, %d)\n", x , y);
       *get_el_ptr(data->kirjoitettava, x, y) = calculate_point_temp(data->luettava, x, y);
       *mean += *get_el_ptr(data->kirjoitettava, x, y);
     }
@@ -171,25 +169,26 @@ double multithread_heatconduct(Array* arr, unsigned int max_iters)
 {
   pthread_t thr[NUM_THREADS-1];
   int i, rc;
-  double prev_mean = -1, *mean = 0;
+  double prev_mean = -1;
+  double *mean = malloc(sizeof(double));
   thread_data_t thr_data[NUM_THREADS];
-  printf("woot\n");
-  if (dividable(NUM_THREADS, arr->width, arr->height) == 0)
+  if (dividable(NUM_THREADS, arr->width-2, arr->height-2) == 0)
   {
     printf("Fuck, the array wasnt dividable by %d threads\n", NUM_THREADS);
     return EXIT_FAILURE;
   }
   Array* temp_arr = new_array(arr->width, arr->height);
   copy_array(arr, temp_arr);
-  printf("woot\n");
   for (i = 0; i < NUM_THREADS; ++i) {
+
+    thr_data[i].limits = malloc(sizeof(int)*4);
     thr_data[i].thread_number = i;
     thr_data[i].luettava = arr;
     thr_data[i].kirjoitettava = temp_arr;
     thr_data[i].max_threads = NUM_THREADS;
     thr_data[i].mean = mean;
+    give_limits(&(thr_data[i]));
   }
-  printf("woot\n");
   for (unsigned int i = 0; i < max_iters; ++i)
   {
     for (i = 0; i < NUM_THREADS-1; ++i) { //excluding mainthread as thread 3
@@ -221,6 +220,7 @@ double multithread_heatconduct(Array* arr, unsigned int max_iters)
     *mean = 0;
   }
   del_array(temp_arr);
+  free(mean);
   printf("Didn't find balance after %d iterations.\n", max_iters);
   return prev_mean;
 }

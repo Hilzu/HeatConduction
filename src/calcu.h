@@ -6,12 +6,13 @@ typedef struct _thread_data_t {
   int thread_number;
   int max_threads;
   double* mean;
+  int* limits;
   Array* luettava;
   Array* kirjoitettava;
 } thread_data_t;
 
 int dividable(int,int,int);
-void give_limits(const thread_data_t*, int*);
+void give_limits(const thread_data_t*);
 void *thr_func(void*);
 void calc(void*);
 

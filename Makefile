@@ -5,7 +5,7 @@ INCLUDE_DIRS := -I src
 WARNINGS := -pedantic -Wall -Werror -Wextra
 CC      := gcc
 CCFLAGS := $(WARNINGS) -std=c99 -O3 -D_POSIX_C_SOURCE=199309L $(INCLUDE_DIRS)
-LIBS := -lrt
+LIBS := -lrt -lpthread
 
 PROGRAM = bin/HeatConduction
 
