@@ -19,7 +19,7 @@ int main(int argc, char** argv)
 
   unsigned int arr_width = conf.width * conf.multiplier;
   unsigned int arr_height = conf.height * conf.multiplier;
-  
+
   printf("Creating array size of %ux%u.\n", arr_width, arr_height);
   Array* arr = new_array(arr_width, arr_height);
 
@@ -28,7 +28,7 @@ int main(int argc, char** argv)
   initialize_array(arr, conf.top_temp, conf.right_temp, conf.bottom_temp, conf.left_temp);
 
   printf("Searching for temp balance with max iterations of %d.\n", conf.max_iters);
-  double mean_temp = calculate_heatconduct(arr, conf.max_iters);
+  double mean_temp = multithread_heatconduct(arr, conf.max_iters);
 
   printf("Mean temperature: %f\n", mean_temp);
 
