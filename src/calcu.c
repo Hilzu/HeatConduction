@@ -210,12 +210,12 @@ double multithread_heatconduct(Array* arr, unsigned int max_iters)
       if (conf.verbose > 1) {
         print_arr(arr);
       }
-    }/*
+    }
     if (fabs(new_mean - prev_mean) < 0.0000000000001) {
-      printf("Found balance after %d iterations.\n", i);
+      printf("Found balance after %d iterations.\n", f);
       del_array(temp_arr);
       return new_mean;
-    }*/
+    }
     prev_mean = new_mean;
     *mean = 0;
   }
