@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include "array.h"
 #include "calcu.h"
+#include <stdint.h>
 #include "utils.h"
 #include <pthread.h>
 #include <unistd.h>
@@ -31,7 +32,6 @@ int dividable(int divided_by, int width, int height)
 
 void give_limits(const thread_data_t* data)
 {
-  printf("derp");
   if (dividable(data->max_threads, (*data->luettava)->width-2, (*data->luettava)->height-2) == 1)
   {
     data->limits[0] = (((int)(*data->luettava)->width-2) / data->max_threads * data->thread_number)+1;
@@ -51,15 +51,15 @@ void give_limits(const thread_data_t* data)
 
 void *thr_func(void *arg) {
   thread_data_t *data = (thread_data_t *)arg;
+  data->mean = 0;
   //printf("we got thread!\nmaxwdth: %u: %d %d\nmaxheight: %u %d %d\n", (*data->luettava)->width, data->limits[0], data->limits[2], (*data->luettava)->height, data->limits[1], data->limits[3]);
-  double* mean = data->mean;
 
   for (int y = data->limits[0]; y < data->limits[2]; ++y)
   {
     for (int x = data->limits[1]; x < data->limits[3]; ++x)
     {
       *get_el_ptr(*data->kirjoitettava, x, y) = calculate_point_temp(*data->luettava, x, y);
-      *mean += *get_el_ptr(*data->kirjoitettava, x, y);
+      data->mean += *get_el_ptr(*data->kirjoitettava, x, y);
     }
   }
   pthread_exit(NULL);
@@ -67,7 +67,7 @@ void *thr_func(void *arg) {
 
 void calc(void *arg) {
   thread_data_t *data = (thread_data_t *)arg;
-  double* mean = data->mean;
+  data->mean = 0;
 
   //printf("we got main!\nmaxwdth: %u: %d %d\nmaxheight: %u %d %d\n", (*data->luettava)->width, data->limits[0], data->limits[2], (*data->luettava)->height, data->limits[1], data->limits[3]);
   for (int y = data->limits[0]; y < data->limits[2]; ++y)
@@ -76,7 +76,7 @@ void calc(void *arg) {
     {
       //printf("cur pos: (%d, %d)\n", x , y);
       *get_el_ptr(*data->kirjoitettava, x, y) = calculate_point_temp(*data->luettava, x, y);
-      *mean += *get_el_ptr(*data->kirjoitettava, x, y);
+      data->mean += *get_el_ptr(*data->kirjoitettava, x, y);
     }
   }
 }
@@ -112,6 +112,18 @@ double calculate_iteration(Array* from, Array* to)
     }
   }
   return sum / ((to->width - 2) * (to->height - 2));
+}
+
+
+double calculate_sum(Array* of)
+{
+  double sum = 0;
+  for (unsigned int row = 1; row < ((of->height) - 1); ++row) {
+    for (unsigned int col = 1; col < ((of->width) - 1); ++col) {
+      sum += *get_el_ptr(of, row, col);
+    }
+  }
+  return sum / ((of->width - 2) * (of->height - 2));
 }
 
 /*
@@ -167,10 +179,10 @@ double fabs(double x)
 
 double multithread_heatconduct(Array* arr, unsigned int max_iters)
 {
-  pthread_t thr[NUM_THREADS-1];
+  pthread_t thr[NUM_THREADS];
   int rc;
   double prev_mean = -1;
-  double *mean = malloc(sizeof(double));
+  //double *mean = malloc(sizeof(double));
   thread_data_t thr_data[NUM_THREADS];
   if (dividable(NUM_THREADS, arr->width-2, arr->height-2) == 0)
   {
@@ -180,31 +192,39 @@ double multithread_heatconduct(Array* arr, unsigned int max_iters)
   Array* temp_arr = new_array(arr->width, arr->height);
   copy_array(arr, temp_arr);
   for (int i = 0; i < NUM_THREADS; ++i) {
-
     thr_data[i].limits = malloc(sizeof(int)*4);
     thr_data[i].thread_number = i;
     thr_data[i].luettava = &arr;
     thr_data[i].kirjoitettava = &temp_arr;
     thr_data[i].max_threads = NUM_THREADS;
-    thr_data[i].mean = mean;
+    thr_data[i].mean = 0;
     give_limits(&(thr_data[i]));
+  }
+  for (int i = 0; i < NUM_THREADS; ++i) { //excluding mainthread as thread 3
+    if ((rc = pthread_create(&thr[i], NULL, thr_func, &thr_data[i]))) {
+      fprintf(stderr, "error: pthread_create, rc: %d\n", rc);
+      return EXIT_FAILURE;
+    }
   }
   for (unsigned int f = 0; f < max_iters; ++f)
   {
-    for (int i = 0; i < NUM_THREADS-1; ++i) { //excluding mainthread as thread 3
+    //*mean = 0;
+    /* calculate the same that threads do to increase syncronity */
+    //calc(&thr_data[NUM_THREADS-1]);
+    /* block until all threads complete */
+    for (int i = 0; i < NUM_THREADS; ++i) {
+      pthread_join(thr[i], NULL);
+    }
+    //for (int i=0; i< NUM_THREADS; ++i)
+    //  new_mean += thr_data[i].mean;
+    swap_ptrs((void**) &arr, (void**) &temp_arr);
+    for (int i = 0; i < NUM_THREADS; ++i) { //excluding mainthread as thread 3
       if ((rc = pthread_create(&thr[i], NULL, thr_func, &thr_data[i]))) {
         fprintf(stderr, "error: pthread_create, rc: %d\n", rc);
         return EXIT_FAILURE;
       }
     }
-    /* calculate the same that threads do to increase syncronity */
-    calc(&thr_data[NUM_THREADS-1]);
-    /* block until all threads complete */
-    for (int i = 0; i < NUM_THREADS-1; ++i) {
-      pthread_join(thr[i], NULL);
-    }
-    double new_mean = *mean / ((arr->width-2) * (arr->height-2));
-    swap_ptrs((void**) &arr, (void**) &temp_arr);
+    double new_mean = calculate_sum(arr);
     if (conf.verbose) {
       printf("Iter: %d Mean: %.15f\n", f + 1, new_mean);
       if (conf.verbose > 1) {
@@ -212,15 +232,19 @@ double multithread_heatconduct(Array* arr, unsigned int max_iters)
       }
     }
     if (fabs(new_mean - prev_mean) < 0.0000000000001) {
-      printf("Found balance after %d iterations.\n", f);
+      printf("Found balance after %d iterations.\n", f+1);
+      for (int i = 0; i < NUM_THREADS; ++i) {
+        pthread_join(thr[i], NULL);
+      }
       del_array(temp_arr);
       return new_mean;
     }
     prev_mean = new_mean;
-    *mean = 0;
+  }
+  for (int i = 0; i < NUM_THREADS; ++i) {
+    pthread_join(thr[i], NULL);
   }
   del_array(temp_arr);
-  free(mean);
   printf("Didn't find balance after %d iterations.\n", max_iters);
   return prev_mean;
 }
