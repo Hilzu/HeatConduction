@@ -4,7 +4,7 @@ PROGRAM_DIRS := $(DIRS)
 INCLUDE_DIRS := -I src
 WARNINGS := -pedantic -Wall -Werror -Wextra
 CC      := gcc
-CCFLAGS := $(WARNINGS) -std=c99  $(INCLUDE_DIRS)
+CCFLAGS := $(WARNINGS) -std=c99 -O3  $(INCLUDE_DIRS)
 LIBS := -lpthread
 
 PROGRAM = bin/HeatConduction
